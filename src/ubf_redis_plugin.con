@@ -1,0 +1,214 @@
+%%% -*- mode: erlang -*-
+%%%
+%%% The MIT License
+%%%
+%%% Copyright (C) 2012 by Joseph Wayne Norton <norton@alum.mit.edu>
+%%%
+%%% Permission is hereby granted, free of charge, to any person obtaining a copy
+%%% of this software and associated documentation files (the "Software"), to deal
+%%% in the Software without restriction, including without limitation the rights
+%%% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%%% copies of the Software, and to permit persons to whom the Software is
+%%% furnished to do so, subject to the following conditions:
+%%%
+%%% The above copyright notice and this permission notice shall be included in
+%%% all copies or substantial portions of the Software.
+%%%
+%%% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%%% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%%% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%%% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%%% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%%% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+%%% THE SOFTWARE.
+
++NAME("redis_server").
+
++VSN("raf1.0").
+
++ANYSTATE
+
+
+%%% keys
+del_req() => del_res();
+dump_req() => dump_res();
+exists_req() => exists_res();
+expire_req() => expire_res();
+expireat_req() => expireat_res();
+keys_req() => keys_res();
+migrate_req() => migrate_res();
+move_req() => move_res();
+object_refcount_req() => object_refcount_res();
+object_encoding_req() => object_encoding_res();
+object_idletime_req() => object_idletime_res();
+persist_req() => persist_res();
+pexpire_req() => pexpire_res();
+pexpireat_req() => pexpireat_res();
+pttl_req() => pttl_res();
+randomkey_req() => randomkey_res();
+rename_req() => rename_res();
+renamenx_req() => renamenx_res();
+restore_req() => restore_res();
+sort_req() => sort_res();
+ttl_req() => ttl_res();
+type_req() => type_res();
+
+
+%%% strings
+append_req() => append_res();
+bitcount_req() => bitcount_res();
+bitop_and_req() => bitop_and_res();
+bitop_or_req() => bitop_or_res();
+bitop_xor_req() => bitop_xor_res();
+bitop_not_req() => bitop_not_res();
+decr_req() => decr_res();
+decrby_req() => decrby_res();
+get_req() => get_res();
+getbit_req() => getbit_res();
+getrange_req() => getrange_res();
+getset_req() => getset_res();
+incr_req() => incr_res();
+incrby_req() => incrby_res();
+incrbyfloat_req() => incrbyfloat_res();
+mget_req() => mget_res();
+mset_req() => mset_res();
+msetnx_req() => msetnx_res();
+psetex_req() => psetex_res();
+set_req() => set_res();
+setbit_req() => setbit_res();
+setex_req() => setex_res();
+setnx_req() => setnx_res();
+setrange_req() => setrange_res();
+strlen_req() => strlen_res();
+
+
+%%% hashes
+hdel_req() => hdel_res();
+hexists_req() => hexists_res();
+hget_req() => hget_res();
+hgetall_req() => hgetall_res();
+hincrby_req() => hincrby_res();
+hincrbyfloat_req() => hincrbyfloat_res();
+hkeys_req() => hkeys_res();
+hlen_req() => hlen_res();
+hmget_req() => hmget_res();
+hmset_req() => hmset_res();
+hset_req() => hset_res();
+hsetnx_req() => hsetnx_res();
+hvals_req() => hvals_res();
+
+
+%%% lists
+blpop_req() => blpop_res();
+brpop_req() => brpop_res();
+brpoplpush_req() => brpoplpush_res();
+lindex_req() => lindex_res();
+linsert_req() => linsert_res();
+llen_req() => llen_res();
+lpop_req() => lpop_res();
+lpush_req() => lpush_res();
+lpushx_req() => lpushx_res();
+lrange_req() => lrange_res();
+lrem_req() => lrem_res();
+lset_req() => lset_res();
+ltrim_req() => ltrim_res();
+rpop_req() => rpop_res();
+rpoplpush_req() => rpoplpush_res();
+rpush_req() => rpush_res();
+rpushx_req() => rpushx_res();
+
+
+%%% sets
+sadd_req() => sadd_res();
+scard_req() => scard_res();
+sdiff_req() => sdiff_res();
+sdiffstore_req() => sdiffstore_res();
+sinter_req() => sinter_res();
+sinterstore_req() => sinterstore_res();
+sismember_req() => sismember_res();
+smembers_req() => smembers_res();
+smove_req() => smove_res();
+spop_req() => spop_res();
+srandmember_req() => srandmember_res();
+srem_req() => srem_res();
+sunion_req() => sunion_res();
+sunionstore_req() => sunionstore_res();
+
+
+%%% sorted sets
+zadd_req() => zadd_res();
+zcard_req() => zcard_res();
+zcount_req() => zcount_res();
+zincrby_req() => zincrby_res();
+zinterstore_req() => zinterstore_res();
+zrange_req() => zrange_res();
+zrangebyscore_req() => zrangebyscore_res();
+zrank_req() => zrank_res();
+zrem_req() => zrem_res();
+zremrangebyrank_req() => zremrangebyrank_res();
+zremrangebyscore_req() => zremrangebyscore_res();
+zrevrange_req() => zrevrange_res();
+zrevrangebyscore_req() => zrevrangebyscore_res();
+zrevrank_req() => zrevrank_res();
+zscore_req() => zscore_res();
+zunionstore_req() => zunionstore_res();
+
+
+%%% publish/subscribe
+psubscribe_req() => psubscribe_res();
+publish_req() => publish_res();
+punsubscribe_req() => punsubscribe_res();
+subscribe_req() => subscribe_res();
+unsubscribe_req() => unsubscribe_res();
+
+
+%%% transactions
+discard_req() => discard_res();
+exec_req() => exec_res();
+multi_req() => multi_res();
+unwatch_req() => unwatch_res();
+watch_req() => watch_res();
+
+
+%%% scripting
+%% eval_req() => eval_res();
+%% script_exists_req() => script_exists_res();
+%% script_flush_req() => script_flush_res();
+%% script_kill_req() => script_kill_res();
+%% script_load_req() => script_load_res();
+
+
+%%% connection
+auth_req() => auth_res();
+echo_req() => echo_res();
+ping_req() => ping_res();
+quit_req() => quit_res();
+select_req() => select_res();
+
+
+%%% server
+bgrewriteaof_req() => bgrewriteaof_res();
+bgsave_req() => bgsave_res();
+config_get_req() => config_get_res();
+config_set_req() => config_set_res();
+config_resetstat_req() => config_resetstat_res();
+dbsize_req() => dbsize_res();
+debug_object_req() => debug_object_res();
+debug_segfault_req() => debug_segfault_res();
+flushall_req() => flushall_res();
+flushdb_req() => flushdb_res();
+info_req() => info_res();
+lastsave_req() => lastsave_res();
+monitor_req() => monitor_res();
+save_req() => save_res();
+shutdown_req() => shutdown_res();
+slaveof_req() => slaveof_res();
+%% slowlog_req() => slowlog_res();
+sync_req() => sync_res();
+time_req() => time_res();
+
+
+%%% ubf methods
+ubf_info_req() => ubf_info_res();
+ubf_description_req() => ubf_description_res();
+ubf_contract_req() => ubf_contract_res().
