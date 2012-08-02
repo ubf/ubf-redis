@@ -37,7 +37,7 @@
 %%% @end
 %%% ---------------------------------------------------
 
--include("ubf.hrl").
+-include_lib("ubf/include/ubf.hrl").
 
 %% API
 -export([encode/4]).

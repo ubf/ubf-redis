@@ -27,7 +27,7 @@
 
 -compile(export_all).
 -include_lib("eunit/include/eunit.hrl").
--include("ubf.hrl").
+-include_lib("ubf/include/ubf.hrl").
 
 -define(APPLICATION, redis_plugin).
 -define(RUF_PORT, server_port(test_ruf_tcp_port)).

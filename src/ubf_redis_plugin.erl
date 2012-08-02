@@ -38,7 +38,7 @@
 -add_types(ubf_redis_types_plugin).
 -add_contract("src/ubf_redis_plugin").
 
--include("ubf.hrl").
+-include_lib("ubf/include/ubf.hrl").
 
 info() ->
     "I am a Redis server".

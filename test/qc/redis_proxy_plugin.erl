@@ -28,8 +28,8 @@
 -module(redis_proxy_plugin).
 -behaviour(ubf_plugin_stateless).
 
--include("ubf.hrl").
--include("ubf_plugin_stateless.hrl").
+-include_lib("ubf/include/ubf.hrl").
+-include_lib("ubf/include/ubf_plugin_stateless.hrl").
 
 -export([info/0, description/0, keepalive/0]).
 -export([handlerStart/1, handlerStop/3, handlerRpc/1]).

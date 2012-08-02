@@ -31,7 +31,7 @@
 
 -ifdef(QC).
 
--include("qc.hrl").
+-include_lib("qc/include/qc.hrl").
 
 -export([qc_run/0, qc_run/1]).
 -export([prop_ruf_requests/0]).

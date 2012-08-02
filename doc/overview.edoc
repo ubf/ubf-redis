@@ -19,7 +19,7 @@ please follow this recipe:
 ------
 $ mkdir working-directory-name
 $ cd working-directory-name
-$ git clone git://github.com/ubf/ubf-redis.git ubf_redis
+$ git clone https://github.com/ubf/ubf-redis.git ubf_redis
 $ cd ubf_redis
 $ ./rebar get-deps
 $ ./rebar clean
@@ -119,7 +119,7 @@ $ chmod a+x ~/bin/repo
 ------
 $ mkdir working-directory-name
 $ cd working-directory-name
-$ repo init -u git://github.com/ubf/manifests.git -m ubf-redis-default.xml
+$ repo init -u https://github.com/ubf/manifests.git -m ubf-redis-default.xml
 ------
 +
 NOTE: Your "Git" identity is needed during the init step.  Please
@@ -210,7 +210,7 @@ $ make dialyze-nospec
    resource file.
 +
 ------
-true = code:add_pathz(os:getenv("HOME")++"/.erlang.d/lib/quviq/eqc-X.Y.Z/ebin").
+true = code:add_pathz(os:getenv("HOME")++"/.erlang.d/deps/quviq/eqc-X.Y.Z/ebin").
 ------
 
 2. Compile for QuickCheck
@@ -224,7 +224,7 @@ $ make eqc-compile
 3. Run 5,000 Redis Encoder/Decoder QuickCheck tests
 +
 ------
-$ cd working-directory-name/lib/ubf_redis/.test
+$ cd working-directory-name/deps/ubf_redis/.test
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> ruf_tests:qc_run(5000).
@@ -241,7 +241,7 @@ Ok, passed 5000 tests
 4. Run 500 Redis Proxy QuickCheck tests
 +
 ------
-$ cd working-directory-name/lib/ubf_redis/.test
+$ cd working-directory-name/deps/ubf_redis/.test
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> redis_proxy_tests:qc_run(500).

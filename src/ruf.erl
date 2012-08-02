@@ -126,7 +126,7 @@
 %%% @end
 %%% ---------------------------------------------------
 
--include("ubf.hrl").
+-include_lib("ubf/include/ubf.hrl").
 
 %% API
 -export([proto_vsn/0, proto_driver/0, proto_packet_type/0]).

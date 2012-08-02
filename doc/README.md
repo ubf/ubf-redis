@@ -19,7 +19,7 @@ please follow this recipe:</p>
 
 <pre><tt>$ mkdir working-directory-name
 $ cd working-directory-name
-$ git clone git://github.com/ubf/ubf-redis.git ubf_redis
+$ git clone https://github.com/ubf/ubf-redis.git ubf_redis
 $ cd ubf_redis
 $ ./rebar get-deps
 $ ./rebar clean
@@ -168,7 +168,7 @@ Create working directory
 
 <pre><tt>$ mkdir working-directory-name
 $ cd working-directory-name
-$ repo init -u git://github.com/ubf/manifests.git -m ubf-redis-default.xml</tt></pre>
+$ repo init -u https://github.com/ubf/manifests.git -m ubf-redis-default.xml</tt></pre>
 
 
 <table><tr>
@@ -378,7 +378,7 @@ Make sure QuickCheck is in your Erlang code path.  One simple way
 </p>
 
 
-<pre><tt>true = code:add_pathz(os:getenv("HOME")++"/.erlang.d/lib/quviq/eqc-X.Y.Z/ebin").</tt></pre>
+<pre><tt>true = code:add_pathz(os:getenv("HOME")++"/.erlang.d/deps/quviq/eqc-X.Y.Z/ebin").</tt></pre>
 
 </li>
 <li>
@@ -398,7 +398,7 @@ Run 5,000 Redis Encoder/Decoder QuickCheck tests
 </p>
 
 
-<pre><tt>$ cd working-directory-name/lib/ubf_redis/.test
+<pre><tt>$ cd working-directory-name/deps/ubf_redis/.test
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> ruf_tests:qc_run(5000).
@@ -418,7 +418,7 @@ Run 500 Redis Proxy QuickCheck tests
 </p>
 
 
-<pre><tt>$ cd working-directory-name/lib/ubf_redis/.test
+<pre><tt>$ cd working-directory-name/deps/ubf_redis/.test
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> redis_proxy_tests:qc_run(500).

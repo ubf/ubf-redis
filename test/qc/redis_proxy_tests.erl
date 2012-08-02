@@ -38,7 +38,7 @@
 -export([ubf_command_typename/4]).
 -export([ubf_aggregate/1]).
 
--include("qc_ubf.hrl").
+-include_lib("ubf/include/qc_ubf.hrl").
 
 %%%-------------------------------------------------------------------
 %%% API
