@@ -153,7 +153,7 @@ contract_records() ->
           x     :: binary(),              % current binary to be decoded
           stack :: undefined | term(),    % current stack
           size  :: undefined | integer(), % current size (optional)
-          mol   :: undefined | integer() | binary(), % maximum size or last (optional)
+          last  :: undefined | integer(), % last (optional)
           safe  :: boolean(),             % safe
           vsn   :: undefined | string(),  % version
           mod   :: atom()                 % contract
@@ -504,19 +504,19 @@ decode_non_neg_integer_or_nil(#state{stack=[H|Stack]}=S, Cont) ->
 %%
 %% -----------------------------------------------------------------
 decode_line(#state{x=X,stack=Stack}=S, Cont) ->
-    decode_line_loop(S#state{x=X,size=0,mol=undefined,stack=[[X]|Stack]}, Cont).
+    decode_line_loop(S#state{x=X,size=0,last=undefined,stack=[[X]|Stack]}, Cont).
 
 decode_line_resume(#state{x=X,stack=Stack}=S, Cont) ->
     decode_line_loop(S#state{x=X,stack=push(X, Stack)}, Cont).
 
-decode_line_loop(#state{x=X,size=Size,mol=Last,stack=[Line|Stack]}=S, Cont) ->
+decode_line_loop(#state{x=X,size=Size,last=Last,stack=[Line|Stack]}=S, Cont) ->
     case X of
         <<$\n,X1/binary>> when Last == <<$\r>> ->
             Size1 = Size - 1,
             <<Line1:Size1/binary,$\r,_/binary>> = iolist_to_binary(lists:reverse(Line)),
             Cont(S#state{x=X1, stack=[Line1|Stack]});
         <<Last1:1/binary,X1/binary>> ->
-            decode_line_loop(S#state{x=X1,size=Size+1,mol=Last1}, Cont);
+            decode_line_loop(S#state{x=X1,size=Size+1,last=Last1}, Cont);
         <<>> ->
             decode_pause(S, Cont, fun decode_line_resume/2)
     end.
@@ -526,27 +526,15 @@ decode_line_loop(#state{x=X,size=Size,mol=Last,stack=[Line|Stack]}=S, Cont) ->
 %% -----------------------------------------------------------------
 decode_line_max(#state{stack=[undefined|_Stack]}=S, Cont) ->
     Cont(S);
-decode_line_max(#state{x=X,stack=[Max|Stack]}=S, Cont) ->
-    decode_line_max_loop(S#state{x=X,size=0,mol=Max+2,stack=[[X]|Stack]}, Cont).
+decode_line_max(#state{stack=[Max|Stack]}=S, Cont) ->
+    decode_line_max_loop(S#state{size=Max+2,stack=[Stack]}, Cont).
 
-decode_line_max_resume(#state{x=X,stack=Stack}=S, Cont) ->
-    decode_line_max_loop(S#state{x=X,stack=push(X, Stack)}, Cont).
-
-decode_line_max_loop(#state{x=X,size=Size,mol=0,stack=[Line|Stack]}=S, Cont) ->
+decode_line_max_loop(#state{x=X,size=Size,stack=[Stack]}=S, Cont) when byte_size(X) >= Size ->
     Size1 = Size - 2,
-    <<Line1:Size1/binary,_/binary>> = iolist_to_binary(lists:reverse(Line)),
-    Cont(S#state{x=X, stack=[Line1|Stack]});
-decode_line_max_loop(#state{x=X,size=Size,mol=Max}=S, Cont) when is_integer(Max) ->
-    case X of
-        <<$\r,X1/binary>> when Max == 2 ->
-            decode_line_max_loop(S#state{x=X1,size=Size+1,mol=Max-1}, Cont);
-        <<$\n,X1/binary>> when Max == 1 ->
-            decode_line_max_loop(S#state{x=X1,size=Size+1,mol=Max-1}, Cont);
-        <<_:1/binary,X1/binary>> when Max > 2 ->
-            decode_line_max_loop(S#state{x=X1,size=Size+1,mol=Max-1}, Cont);
-        <<>> ->
-            decode_pause(S, Cont, fun decode_line_max_resume/2)
-    end.
+    <<Line:Size1/binary,$\r,$\n,X1/binary>> = X,
+    Cont(S#state{x=X1,stack=[Line|Stack]});
+decode_line_max_loop(S, Cont) ->
+    decode_pause(S, Cont, fun decode_line_max_loop/2).
 
 %%%========================================================================
 %%% Utility functions
