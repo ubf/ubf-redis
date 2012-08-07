@@ -153,7 +153,7 @@ contract_records() ->
           x     :: binary(),              % current binary to be decoded
           stack :: undefined | term(),    % current stack
           size  :: undefined | integer(), % current size (optional)
-          last  :: undefined | integer(), % last (optional)
+          last  :: undefined | binary(),  % last (optional)
           safe  :: boolean(),             % safe
           vsn   :: undefined | string(),  % version
           mod   :: atom()                 % contract
