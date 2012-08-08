@@ -29,537 +29,537 @@
 +TYPES
 
 %%% basic types
-non_neg_integer() = 0..;
-pos_integer() = 1..;
-number() = integer() | float();
+non_neg_integer() :: 0..;
+pos_integer() :: 1..;
+number() :: integer() | float();
 
-offset() = 0..4294967295;
-encoding() = raw | int | ziplist | linkedlist | zipmap | hashtable | ziplist | skiplist;
+offset() :: 0..4294967295;
+encoding() :: raw | int | ziplist | linkedlist | zipmap | hashtable | ziplist | skiplist;
 
-key() = binary(nonempty);
-value() = binary();
-keyval() = {key(), value()};
+key() :: binary(nonempty);
+value() :: binary();
+keyval() :: {key(), value()};
 
-field() = binary(nonempty);
-fieldval() = {field(), value()};
+field() :: binary(nonempty);
+fieldval() :: {field(), value()};
 
-score() = number();
-scoreval() = {score(), value()};
-valscore() = {value(), score()};
-weight() = number();
-scoremin() = {'(', score()} | score() | '-inf' | '+inf';
-scoremax() = {'(', score()} | score() | '-inf' | '+inf';
+score() :: number();
+scoreval() :: {score(), value()};
+valscore() :: {value(), score()};
+weight() :: number();
+scoremin() :: {'(', score()} | score() | '-inf' | '+inf';
+scoremax() :: {'(', score()} | score() | '-inf' | '+inf';
 
-pattern() = binary();
-channel() = binary();
-message() = binary();
+pattern() :: binary();
+channel() :: binary();
+message() :: binary();
 
-secs() = non_neg_integer();
-msecs() = non_neg_integer();
-time_t() = secs();
-msecs_time_t() = msecs();
-timestamp() = time_t();
-msecs_timestamp() = msecs_time_t();
-timeout() = msecs();
+secs() :: non_neg_integer();
+msecs() :: non_neg_integer();
+time_t() :: secs();
+msecs_time_t() :: msecs();
+timestamp() :: time_t();
+msecs_timestamp() :: msecs_time_t();
+timeout() :: msecs();
 
-db() = non_neg_integer();
-host() = binary();
-port() = non_neg_integer();
-password() = binary();
+db() :: non_neg_integer();
+host() :: binary();
+port() :: non_neg_integer();
+password() :: binary();
 
-ok() = {ok, binary()};
-error() = {error, <<"">>};
+ok() :: {ok, binary()};
+error() :: {error, <<"">>};
 
-not_implemented_dump() = {error, <<"ERR unknown command 'DUMP'">>};
-not_implemented_migrate() = {error, <<"ERR unknown command 'MIGRATE'">>};
-not_implemented_pexpire() = {error, <<"ERR unknown command 'PEXPIRE'">>};
-not_implemented_pexpireat() = {error, <<"ERR unknown command 'PEXPIREAT'">>};
-not_implemented_pttl() = {error, <<"ERR unknown command 'PTTL'">>};
-not_implemented_restore() = {error, <<"ERR unknown command 'RESTORE'">>};
-not_implemented_bitcount() = {error, <<"ERR unknown command 'BITCOUNT'">>};
-not_implemented_bitop() = {error, <<"ERR unknown command 'BITOP'">>};
-not_implemented_incrbyfloat() = {error, <<"ERR unknown command 'INCRBYFLOAT'">>};
-not_implemented_psetex() = {error, <<"ERR unknown command 'PSETEX'">>};
-not_implemented_hincrbyfloat() = {error, <<"ERR unknown command 'HINCRBYFLOAT'">>};
-not_implemented_time() = {error, <<"ERR unknown command 'TIME'">>};
+not_implemented_dump() :: {error, <<"ERR unknown command 'DUMP'">>};
+not_implemented_migrate() :: {error, <<"ERR unknown command 'MIGRATE'">>};
+not_implemented_pexpire() :: {error, <<"ERR unknown command 'PEXPIRE'">>};
+not_implemented_pexpireat() :: {error, <<"ERR unknown command 'PEXPIREAT'">>};
+not_implemented_pttl() :: {error, <<"ERR unknown command 'PTTL'">>};
+not_implemented_restore() :: {error, <<"ERR unknown command 'RESTORE'">>};
+not_implemented_bitcount() :: {error, <<"ERR unknown command 'BITCOUNT'">>};
+not_implemented_bitop() :: {error, <<"ERR unknown command 'BITOP'">>};
+not_implemented_incrbyfloat() :: {error, <<"ERR unknown command 'INCRBYFLOAT'">>};
+not_implemented_psetex() :: {error, <<"ERR unknown command 'PSETEX'">>};
+not_implemented_hincrbyfloat() :: {error, <<"ERR unknown command 'HINCRBYFLOAT'">>};
+not_implemented_time() :: {error, <<"ERR unknown command 'TIME'">>};
 
-error_bgrewriteaof() = {error, <<"ERR Background append only file rewriting already in progress">>};
-error_bit() = {error, <<"ERR bit is not an integer or out of range">>};
-error_db() = {error, <<"ERR invalid DB index">>};
-error_discard() = {error, <<"ERR DISCARD without MULTI">>};
-error_nokey() = {error, <<"ERR no such key">>};
-error_nopassword() = {error, <<"ERR Client sent AUTH, but no password is set">>};
-error_range() = {error, <<"ERR index out of range">>};
-error_string_maxsize() = {error, <<"ERR string exceeds maximum allowed size (512MB)">>};
-error_syntax() = {error, <<"ERR syntax error">>};
-error_wrongvalue() = {error, <<"ERR Operation against a key holding the wrong kind of value">>};
-error_config() = {error, binary()};
+error_bgrewriteaof() :: {error, <<"ERR Background append only file rewriting already in progress">>};
+error_bit() :: {error, <<"ERR bit is not an integer or out of range">>};
+error_db() :: {error, <<"ERR invalid DB index">>};
+error_discard() :: {error, <<"ERR DISCARD without MULTI">>};
+error_nokey() :: {error, <<"ERR no such key">>};
+error_nopassword() :: {error, <<"ERR Client sent AUTH, but no password is set">>};
+error_range() :: {error, <<"ERR index out of range">>};
+error_string_maxsize() :: {error, <<"ERR string exceeds maximum allowed size (512MB)">>};
+error_syntax() :: {error, <<"ERR syntax error">>};
+error_wrongvalue() :: {error, <<"ERR Operation against a key holding the wrong kind of value">>};
+error_config() :: {error, binary()};
 
 %%% keys
-del_req() = {'DEL', [key()]+};
-del_res() = non_neg_integer();
+del_req() :: {'DEL', [key()]+};
+del_res() :: non_neg_integer();
 
-dump_req() = {'DUMP', key()};
-dump_res() = not_implemented_dump(); %% binary()?;
+dump_req() :: {'DUMP', key()};
+dump_res() :: not_implemented_dump(); %% binary()?;
 
-exists_req() = {'EXISTS', key()};
-exists_res() = 1 | 0;
+exists_req() :: {'EXISTS', key()};
+exists_res() :: 1 | 0;
 
-expire_req() = {'EXPIRE', key(), secs()};
-expire_res() = 1 | 0;
+expire_req() :: {'EXPIRE', key(), secs()};
+expire_res() :: 1 | 0;
 
-expireat_req() = {'EXPIREAT', key(), timestamp()};
-expireat_res() = 1 | 0;
+expireat_req() :: {'EXPIREAT', key(), timestamp()};
+expireat_res() :: 1 | 0;
 
-keys_req() = {'KEYS', pattern()};
-keys_res() = [key()] `keys`;
+keys_req() :: {'KEYS', pattern()};
+keys_res() :: [key()] `keys`;
 
-migrate_req() = {'MIGRATE', host(), port(), key(), db(), timeout()};
-migrate_res() = not_implemented_migrate(); %% ok() | error();
+migrate_req() :: {'MIGRATE', host(), port(), key(), db(), timeout()};
+migrate_res() :: not_implemented_migrate(); %% ok() | error();
 
-move_req() = {'MOVE', key(), db()};
-move_res() = 1 | 0 | error_range(); %% undocumented error()
+move_req() :: {'MOVE', key(), db()};
+move_res() :: 1 | 0 | error_range(); %% undocumented error()
 
-object_refcount_req() = {'OBJECT', 'REFCOUNT', key()};
-object_refcount_res() = non_neg_integer()?;
+object_refcount_req() :: {'OBJECT', 'REFCOUNT', key()};
+object_refcount_res() :: non_neg_integer()?;
 
-object_encoding_req() = {'OBJECT', 'ENCODING', key()};
-object_encoding_res() = encoding()?;
+object_encoding_req() :: {'OBJECT', 'ENCODING', key()};
+object_encoding_res() :: encoding()?;
 
-object_idletime_req() = {'OBJECT', 'IDLETIME', key()};
-object_idletime_res() = secs()?;
+object_idletime_req() :: {'OBJECT', 'IDLETIME', key()};
+object_idletime_res() :: secs()?;
 
-persist_req() = {'PERSIST', key()};
-persist_res() = 1 | 0;
+persist_req() :: {'PERSIST', key()};
+persist_res() :: 1 | 0;
 
-pexpire_req() = {'PEXPIRE', key(), msecs()};
-pexpire_res() = not_implemented_pexpire(); %% 1 | 0;
+pexpire_req() :: {'PEXPIRE', key(), msecs()};
+pexpire_res() :: not_implemented_pexpire(); %% 1 | 0;
 
-pexpireat_req() = {'PEXPIREAT', key(), msecs_timestamp()};
-pexpireat_res() = not_implemented_pexpireat(); %%  1 | 0;
+pexpireat_req() :: {'PEXPIREAT', key(), msecs_timestamp()};
+pexpireat_res() :: not_implemented_pexpireat(); %%  1 | 0;
 
-pttl_req() = {'PTTL', key()};
-pttl_res() = not_implemented_pttl(); %% msecs() | -1;
+pttl_req() :: {'PTTL', key()};
+pttl_res() :: not_implemented_pttl(); %% msecs() | -1;
 
-randomkey_req() = 'RANDOMKEY';
-randomkey_res() = key()?;
+randomkey_req() :: 'RANDOMKEY';
+randomkey_res() :: key()?;
 
-rename_req() = {'RENAME', key(), key()};
-rename_res() = ok() | error_nokey();
+rename_req() :: {'RENAME', key(), key()};
+rename_res() :: ok() | error_nokey();
 
-renamenx_req() = {'RENAMENX', key(), key()};
-renamenx_res() = 1 | 0 | error_nokey();
+renamenx_req() :: {'RENAMENX', key(), key()};
+renamenx_res() :: 1 | 0 | error_nokey();
 
-restore_req() = {'RESTORE', key(), msecs(), binary()};
-restore_res() = not_implemented_restore(); %% ok() | error();
+restore_req() :: {'RESTORE', key(), msecs(), binary()};
+restore_res() :: not_implemented_restore(); %% ok() | error();
 
-sort_req() = {'SORT', key(), [{'BY', pattern()} | {'LIMIT', integer(), integer()} | {'GET', pattern()} | 'ASC' | 'DESC' | 'ALPHA' | {'STORE', key()}]};
-sort_res() = [value()] | 0 | error_wrongvalue() `values`; %% undocumented 0 reply and error()
+sort_req() :: {'SORT', key(), [{'BY', pattern()} | {'LIMIT', integer(), integer()} | {'GET', pattern()} | 'ASC' | 'DESC' | 'ALPHA' | {'STORE', key()}]};
+sort_res() :: [value()] | 0 | error_wrongvalue() `values`; %% undocumented 0 reply and error()
 
-ttl_req() = {'TTL', key()};
-ttl_res() = secs() | -1;
+ttl_req() :: {'TTL', key()};
+ttl_res() :: secs() | -1;
 
-type_req() = {'TYPE', key()};
-type_res() = string | list | set | zset | hash | none `atom`;
+type_req() :: {'TYPE', key()};
+type_res() :: string | list | set | zset | hash | none `atom`;
 
 %%% strings
-append_req() = {'APPEND', key(), value()};
-append_res() = non_neg_integer();
+append_req() :: {'APPEND', key(), value()};
+append_res() :: non_neg_integer();
 
-bitcount_req() = {'BITCOUNT', key(), integer(), integer()};
-bitcount_res() = not_implemented_bitcount();  %% non_neg_integer();
+bitcount_req() :: {'BITCOUNT', key(), integer(), integer()};
+bitcount_res() :: not_implemented_bitcount();  %% non_neg_integer();
 
-bitop_and_req() = {'BITOP', 'AND', key(), [key()]+};
-bitop_and_res() = not_implemented_bitop(); %% non_neg_integer();
+bitop_and_req() :: {'BITOP', 'AND', key(), [key()]+};
+bitop_and_res() :: not_implemented_bitop(); %% non_neg_integer();
 
-bitop_or_req() = {'BITOP', 'OR', key(), [key()]+};
-bitop_or_res() = not_implemented_bitop(); %% non_neg_integer();
+bitop_or_req() :: {'BITOP', 'OR', key(), [key()]+};
+bitop_or_res() :: not_implemented_bitop(); %% non_neg_integer();
 
-bitop_xor_req() = {'BITOP', 'XOR', key(), [key()]+};
-bitop_xor_res() = not_implemented_bitop(); %% non_neg_integer();
+bitop_xor_req() :: {'BITOP', 'XOR', key(), [key()]+};
+bitop_xor_res() :: not_implemented_bitop(); %% non_neg_integer();
 
-bitop_not_req() = {'BITOP', 'NOT', key(), key()};
-bitop_not_res() = not_implemented_bitop(); %% non_neg_integer();
+bitop_not_req() :: {'BITOP', 'NOT', key(), key()};
+bitop_not_res() :: not_implemented_bitop(); %% non_neg_integer();
 
-decr_req() = {'DECR', key()};
-decr_res() = integer() | error_wrongvalue();
+decr_req() :: {'DECR', key()};
+decr_res() :: integer() | error_wrongvalue();
 
-decrby_req() = {'DECRBY', key(), integer()};
-decrby_res() = integer() | error_wrongvalue();
+decrby_req() :: {'DECRBY', key(), integer()};
+decrby_res() :: integer() | error_wrongvalue();
 
-get_req() = {'GET', key()};
-get_res() = value()? | error_wrongvalue();
+get_req() :: {'GET', key()};
+get_res() :: value()? | error_wrongvalue();
 
-getbit_req() = {'GETBIT', key(), offset()};
-getbit_res() = 0 | 1 | error_wrongvalue(); %% undocumented error()
+getbit_req() :: {'GETBIT', key(), offset()};
+getbit_res() :: 0 | 1 | error_wrongvalue(); %% undocumented error()
 
-getrange_req() = {'GETRANGE', key(), integer(), integer()};
-getrange_res() = value() | error_wrongvalue(); %% undocumented error()
+getrange_req() :: {'GETRANGE', key(), integer(), integer()};
+getrange_res() :: value() | error_wrongvalue(); %% undocumented error()
 
-getset_req() = {'GETSET', key(), value()};
-getset_res() = value()? | error_wrongvalue(); %% undocumented error()
+getset_req() :: {'GETSET', key(), value()};
+getset_res() :: value()? | error_wrongvalue(); %% undocumented error()
 
-incr_req() = {'INCR', key()};
-incr_res() = integer() | error_wrongvalue();
+incr_req() :: {'INCR', key()};
+incr_res() :: integer() | error_wrongvalue();
 
-incrby_req() = {'INCRBY', key(), integer()};
-incrby_res() = integer() | error_wrongvalue();
+incrby_req() :: {'INCRBY', key(), integer()};
+incrby_res() :: integer() | error_wrongvalue();
 
-incrbyfloat_req() = {'INCRBYFLOAT', key(), float()};
-incrbyfloat_res() = not_implemented_incrbyfloat(); %% number() `number`;
+incrbyfloat_req() :: {'INCRBYFLOAT', key(), float()};
+incrbyfloat_res() :: not_implemented_incrbyfloat(); %% number() `number`;
 
-mget_req() = {'MGET', [key()]+};
-mget_res() = [value()?]+ `values`;
+mget_req() :: {'MGET', [key()]+};
+mget_res() :: [value()?]+ `values`;
 
-mset_req() = {'MSET', [keyval()]+};
-mset_res() = ok();
+mset_req() :: {'MSET', [keyval()]+};
+mset_res() :: ok();
 
-msetnx_req() = {'MSETNX', [keyval()]+};
-msetnx_res() = 1 | 0;
+msetnx_req() :: {'MSETNX', [keyval()]+};
+msetnx_res() :: 1 | 0;
 
-psetex_req() = {'PSETEX', key(), msecs(), value()};
-psetex_res() = not_implemented_psetex(); %% ok() | error();
+psetex_req() :: {'PSETEX', key(), msecs(), value()};
+psetex_res() :: not_implemented_psetex(); %% ok() | error();
 
-set_req() = {'SET', key(), value()};
-set_res() = ok();
+set_req() :: {'SET', key(), value()};
+set_res() :: ok();
 
-setbit_req() = {'SETBIT', key(), offset(), value()};
-setbit_res() = 0 | 1 | error_bit(); %% undocumented error()
+setbit_req() :: {'SETBIT', key(), offset(), value()};
+setbit_res() :: 0 | 1 | error_bit(); %% undocumented error()
 
-setex_req() = {'SETEX', key(), secs(), value()};
-setex_res() = ok() | error_wrongvalue();
+setex_req() :: {'SETEX', key(), secs(), value()};
+setex_res() :: ok() | error_wrongvalue();
 
-setnx_req() = {'SETNX', key(), value()};
-setnx_res() = 1 | 0;
+setnx_req() :: {'SETNX', key(), value()};
+setnx_res() :: 1 | 0;
 
-setrange_req() = {'SETRANGE', key(), offset(), value()};
-setrange_res() = non_neg_integer() | error_string_maxsize(); %% undocumented error()
+setrange_req() :: {'SETRANGE', key(), offset(), value()};
+setrange_res() :: non_neg_integer() | error_string_maxsize(); %% undocumented error()
 
-strlen_req() = {'STRLEN', key()};
-strlen_res() = non_neg_integer() | error_wrongvalue();
+strlen_req() :: {'STRLEN', key()};
+strlen_res() :: non_neg_integer() | error_wrongvalue();
 
 
 %%% hashes
-hdel_req() = {'HDEL', key(), [field()]+};
-hdel_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+hdel_req() :: {'HDEL', key(), [field()]+};
+hdel_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-hexists_req() = {'HEXISTS', key(), field()};
-hexists_res() = 1 | 0;
+hexists_req() :: {'HEXISTS', key(), field()};
+hexists_res() :: 1 | 0;
 
-hget_req() = {'HGET', key(), field()};
-hget_res() = value()? | error_wrongvalue(); %% undocumented error()
+hget_req() :: {'HGET', key(), field()};
+hget_res() :: value()? | error_wrongvalue(); %% undocumented error()
 
-hgetall_req() = {'HGETALL', key()};
-hgetall_res() = [fieldval()] | error_wrongvalue() `fieldvals`; %% undocumented error()
+hgetall_req() :: {'HGETALL', key()};
+hgetall_res() :: [fieldval()] | error_wrongvalue() `fieldvals`; %% undocumented error()
 
-hincrby_req() = {'HINCRBY', key(), field(), integer()};
-hincrby_res() = integer() | error_wrongvalue(); %% undocumented error()
+hincrby_req() :: {'HINCRBY', key(), field(), integer()};
+hincrby_res() :: integer() | error_wrongvalue(); %% undocumented error()
 
-hincrbyfloat_req() = {'HINCRBYFLOAT', key(), field(), float()};
-hincrbyfloat_res() = not_implemented_hincrbyfloat(); %% number() `number`;
+hincrbyfloat_req() :: {'HINCRBYFLOAT', key(), field(), float()};
+hincrbyfloat_res() :: not_implemented_hincrbyfloat(); %% number() `number`;
 
-hkeys_req() = {'HKEYS', key()};
-hkeys_res() = [field()] | error() `fields`; %% undocumented error()
+hkeys_req() :: {'HKEYS', key()};
+hkeys_res() :: [field()] | error() `fields`; %% undocumented error()
 
-hlen_req() = {'HLEN', key()};
-hlen_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+hlen_req() :: {'HLEN', key()};
+hlen_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-hmget_req() = {'HMGET', key(), [field()]+};
-hmget_res() = [value()?]+ | error() `values`; %% undocumented error()
+hmget_req() :: {'HMGET', key(), [field()]+};
+hmget_res() :: [value()?]+ | error() `values`; %% undocumented error()
 
-hmset_req() = {'HMSET', key(), [fieldval()]+};
-hmset_res() = ok() | error_wrongvalue(); %% undocumented error()
+hmset_req() :: {'HMSET', key(), [fieldval()]+};
+hmset_res() :: ok() | error_wrongvalue(); %% undocumented error()
 
-hset_req() = {'HSET', key(), field(), value()};
-hset_res() = 1 | 0 | error_wrongvalue(); %% undocumented error()
+hset_req() :: {'HSET', key(), field(), value()};
+hset_res() :: 1 | 0 | error_wrongvalue(); %% undocumented error()
 
-hsetnx_req() = {'HSETNX', key(), field(), value()};
-hsetnx_res() = 1 | 0 | error_wrongvalue(); %% undocumented error()
+hsetnx_req() :: {'HSETNX', key(), field(), value()};
+hsetnx_res() :: 1 | 0 | error_wrongvalue(); %% undocumented error()
 
-hvals_req() = {'HVALS', key()};
-hvals_res() = [value()] | error() `values`; %% undocumented error()
+hvals_req() :: {'HVALS', key()};
+hvals_res() :: [value()] | error() `values`; %% undocumented error()
 
 
 %%% lists
-blpop_req() = {'BLPOP', [key()]+, timeout()};
-blpop_res() = keyval()?;
+blpop_req() :: {'BLPOP', [key()]+, timeout()};
+blpop_res() :: keyval()?;
 
-brpop_req() = {'BRPOP', [key()]+, timeout()};
-brpop_res() = keyval()?;
+brpop_req() :: {'BRPOP', [key()]+, timeout()};
+brpop_res() :: keyval()?;
 
-brpoplpush_req() = {'BRPOPLPUSH', key(), key(), timeout()};
-brpoplpush_res() = value()?;
+brpoplpush_req() :: {'BRPOPLPUSH', key(), key(), timeout()};
+brpoplpush_res() :: value()?;
 
-lindex_req() = {'LINDEX', key(), integer()};
-lindex_res() =  value()? | error_wrongvalue();
+lindex_req() :: {'LINDEX', key(), integer()};
+lindex_res() ::  value()? | error_wrongvalue();
 
-linsert_req() = {'LINSERT', key(), before | after, key(), value()};
-linsert_res() = non_neg_integer() | -1 | error_wrongvalue();
+linsert_req() :: {'LINSERT', key(), before | after, key(), value()};
+linsert_res() :: non_neg_integer() | -1 | error_wrongvalue();
 
-llen_req() = {'LLEN', key()};
-llen_res() = non_neg_integer() | error_wrongvalue();
+llen_req() :: {'LLEN', key()};
+llen_res() :: non_neg_integer() | error_wrongvalue();
 
-lpop_req() = {'LPOP', key()};
-lpop_res() = value()?;
+lpop_req() :: {'LPOP', key()};
+lpop_res() :: value()?;
 
-lpush_req() = {'LPUSH', key(), [value()]+};
-lpush_res() = non_neg_integer() | error_wrongvalue();
+lpush_req() :: {'LPUSH', key(), [value()]+};
+lpush_res() :: non_neg_integer() | error_wrongvalue();
 
-lpushx_req() = {'LPUSHX', key(), value()};
-lpushx_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+lpushx_req() :: {'LPUSHX', key(), value()};
+lpushx_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-lrange_req() = {'LRANGE', key(), integer(), integer()};
-lrange_res() = [value()] | error_wrongvalue() `values`; %% undocumented error()
+lrange_req() :: {'LRANGE', key(), integer(), integer()};
+lrange_res() :: [value()] | error_wrongvalue() `values`; %% undocumented error()
 
-lrem_req() = {'LREM', key(), integer(), value()};
-lrem_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+lrem_req() :: {'LREM', key(), integer(), value()};
+lrem_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-lset_req() = {'LSET', key(), integer(), value()};
-lset_res() = ok() | error_nokey() | error_wrongvalue();
+lset_req() :: {'LSET', key(), integer(), value()};
+lset_res() :: ok() | error_nokey() | error_wrongvalue();
 
-ltrim_req() = {'LTRIM', key(), integer(), integer()};
-ltrim_res() = ok();
+ltrim_req() :: {'LTRIM', key(), integer(), integer()};
+ltrim_res() :: ok();
 
-rpop_req() = {'RPOP', key()};
-rpop_res() = value()? | error_wrongvalue(); %% undocumented error()
+rpop_req() :: {'RPOP', key()};
+rpop_res() :: value()? | error_wrongvalue(); %% undocumented error()
 
-rpoplpush_req() = {'RPOPLPUSH', key(), key()};
-rpoplpush_res() = value()?;
+rpoplpush_req() :: {'RPOPLPUSH', key(), key()};
+rpoplpush_res() :: value()?;
 
-rpush_req() = {'RPUSH', key(), [value()]+};
-rpush_res() = pos_integer() | error_wrongvalue();
+rpush_req() :: {'RPUSH', key(), [value()]+};
+rpush_res() :: pos_integer() | error_wrongvalue();
 
-rpushx_req() = {'RPUSHX', key(), value()};
-rpushx_res() = non_neg_integer() | error_wrongvalue();
+rpushx_req() :: {'RPUSHX', key(), value()};
+rpushx_res() :: non_neg_integer() | error_wrongvalue();
 
 
 %%% sets
-sadd_req() = {'SADD', key(), [value()]+};
-sadd_res() = non_neg_integer() | error_wrongvalue();
+sadd_req() :: {'SADD', key(), [value()]+};
+sadd_res() :: non_neg_integer() | error_wrongvalue();
 
-scard_req() = {'SCARD', key()};
-scard_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+scard_req() :: {'SCARD', key()};
+scard_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-sdiff_req() = {'SDIFF', [key()]+};
-sdiff_res() = [value()] | error_wrongvalue() `values`; %% undocumented error()
+sdiff_req() :: {'SDIFF', [key()]+};
+sdiff_res() :: [value()] | error_wrongvalue() `values`; %% undocumented error()
 
-sdiffstore_req() = {'SDIFFSTORE', key(), [key()]+};
-sdiffstore_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+sdiffstore_req() :: {'SDIFFSTORE', key(), [key()]+};
+sdiffstore_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-sinter_req() = {'SINTER', [key()]+};
-sinter_res() = [value()] | error() `values`; %% undocumented error()
+sinter_req() :: {'SINTER', [key()]+};
+sinter_res() :: [value()] | error() `values`; %% undocumented error()
 
-sinterstore_req() = {'SINTERSTORE', key(), [key()]+};
-sinterstore_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+sinterstore_req() :: {'SINTERSTORE', key(), [key()]+};
+sinterstore_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-sismember_req() = {'SISMEMBER', key(), value()};
-sismember_res() = 1 | 0 | error_wrongvalue(); %% undocumented error()
+sismember_req() :: {'SISMEMBER', key(), value()};
+sismember_res() :: 1 | 0 | error_wrongvalue(); %% undocumented error()
 
-smembers_req() = {'SMEMBERS', key()};
-smembers_res() = [value()] | error_wrongvalue() `values`; %% undocumented error()
+smembers_req() :: {'SMEMBERS', key()};
+smembers_res() :: [value()] | error_wrongvalue() `values`; %% undocumented error()
 
-smove_req() = {'SMOVE', key(), key(), value()};
-smove_res() = 1 | 0 | error_wrongvalue();
+smove_req() :: {'SMOVE', key(), key(), value()};
+smove_res() :: 1 | 0 | error_wrongvalue();
 
-spop_req() = {'SPOP', key()};
-spop_res() = value()? | error_wrongvalue(); %% undocumented error()
+spop_req() :: {'SPOP', key()};
+spop_res() :: value()? | error_wrongvalue(); %% undocumented error()
 
-srandmember_req() = {'SRANDMEMBER', key()};
-srandmember_res() = value()? | error_wrongvalue(); %% undocumented error()
+srandmember_req() :: {'SRANDMEMBER', key()};
+srandmember_res() :: value()? | error_wrongvalue(); %% undocumented error()
 
-srem_req() = {'SREM', key(), [value()]+};
-srem_res() = non_neg_integer() | error_wrongvalue();
+srem_req() :: {'SREM', key(), [value()]+};
+srem_res() :: non_neg_integer() | error_wrongvalue();
 
-sunion_req() = {'SUNION', [key()]+};
-sunion_res() = [value()] | error_wrongvalue() `values`; %% undocumented error()
+sunion_req() :: {'SUNION', [key()]+};
+sunion_res() :: [value()] | error_wrongvalue() `values`; %% undocumented error()
 
-sunionstore_req() = {'SUNIONSTORE', key(), [key()]+};
-sunionstore_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+sunionstore_req() :: {'SUNIONSTORE', key(), [key()]+};
+sunionstore_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
 
 %%% sorted sets
-zadd_req() = {'ZADD', key(), [scoreval()]+};
-zadd_res() = non_neg_integer() | error_wrongvalue();
+zadd_req() :: {'ZADD', key(), [scoreval()]+};
+zadd_res() :: non_neg_integer() | error_wrongvalue();
 
-zcard_req() = {'ZCARD', key()};
-zcard_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+zcard_req() :: {'ZCARD', key()};
+zcard_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-zcount_req() = {'ZCOUNT', key(), scoremin(), scoremax()};
-zcount_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+zcount_req() :: {'ZCOUNT', key(), scoremin(), scoremax()};
+zcount_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-zincrby_req() = {'ZINCRBY', key(), score(), value()};
-zincrby_res() = score() | error_wrongvalue() `score`;
+zincrby_req() :: {'ZINCRBY', key(), score(), value()};
+zincrby_res() :: score() | error_wrongvalue() `score`;
 
-zinterstore_req() = {'ZINTERSTORE', key(), pos_integer(), [key()]+, [{'WEIGHTS', [weight()]+} | {'AGGREGATE', 'SUM' | 'MIN' | 'MAX'}]};
-zinterstore_res() = non_neg_integer();
+zinterstore_req() :: {'ZINTERSTORE', key(), pos_integer(), [key()]+, [{'WEIGHTS', [weight()]+} | {'AGGREGATE', 'SUM' | 'MIN' | 'MAX'}]};
+zinterstore_res() :: non_neg_integer();
 
-zrange_req() = {'ZRANGE', key(), integer(), integer(), ['WITHSCORES']};
-zrange_res() = [value()] | [valscore()] | error_syntax() `values or valscores`; %% undocumented error()
+zrange_req() :: {'ZRANGE', key(), integer(), integer(), ['WITHSCORES']};
+zrange_res() :: [value()] | [valscore()] | error_syntax() `values or valscores`; %% undocumented error()
 
-zrangebyscore_req() = {'ZRANGEBYSCORE', key(), scoremin(), scoremax(), ['WITHSCORES' | {'LIMIT', integer(), integer()}]};
-zrangebyscore_res() = [value()] | [valscore()] `values or valscores`;
+zrangebyscore_req() :: {'ZRANGEBYSCORE', key(), scoremin(), scoremax(), ['WITHSCORES' | {'LIMIT', integer(), integer()}]};
+zrangebyscore_res() :: [value()] | [valscore()] `values or valscores`;
 
-zrank_req() = {'ZRANK', key(), value()};
-zrank_res() = non_neg_integer()?;
+zrank_req() :: {'ZRANK', key(), value()};
+zrank_res() :: non_neg_integer()?;
 
-zrem_req() = {'ZREM', key(), [value()]+};
-zrem_res() = non_neg_integer() | error_wrongvalue();
+zrem_req() :: {'ZREM', key(), [value()]+};
+zrem_res() :: non_neg_integer() | error_wrongvalue();
 
-zremrangebyrank_req() = {'ZREMRANGEBYRANK', key(), integer(), integer()};
-zremrangebyrank_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+zremrangebyrank_req() :: {'ZREMRANGEBYRANK', key(), integer(), integer()};
+zremrangebyrank_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-zremrangebyscore_req() = {'ZREMRANGEBYSCORE', key(), scoremin(), scoremax()};
-zremrangebyscore_res() = non_neg_integer() | error_wrongvalue(); %% undocumented error()
+zremrangebyscore_req() :: {'ZREMRANGEBYSCORE', key(), scoremin(), scoremax()};
+zremrangebyscore_res() :: non_neg_integer() | error_wrongvalue(); %% undocumented error()
 
-zrevrange_req() = {'ZREVRANGE', key(), integer(), integer(), ['WITHSCORES']};
-zrevrange_res() = [value()] | [valscore()] | error_syntax() `values or valscores`; %% undocumented error()
+zrevrange_req() :: {'ZREVRANGE', key(), integer(), integer(), ['WITHSCORES']};
+zrevrange_res() :: [value()] | [valscore()] | error_syntax() `values or valscores`; %% undocumented error()
 
-zrevrangebyscore_req() = {'ZREVRANGEBYSCORE', key(), scoremin(), scoremax(), ['WITHSCORES' | {'LIMIT', integer(), integer()}]};
-zrevrangebyscore_res() = [value()] | [valscore()] `values or valscores`;
+zrevrangebyscore_req() :: {'ZREVRANGEBYSCORE', key(), scoremin(), scoremax(), ['WITHSCORES' | {'LIMIT', integer(), integer()}]};
+zrevrangebyscore_res() :: [value()] | [valscore()] `values or valscores`;
 
-zrevrank_req() = {'ZREVRANK', key(), value()};
-zrevrank_res() = non_neg_integer()? | error_wrongvalue(); %% undocumented error()
+zrevrank_req() :: {'ZREVRANK', key(), value()};
+zrevrank_res() :: non_neg_integer()? | error_wrongvalue(); %% undocumented error()
 
-zscore_req() = {'ZSCORE', key(), value()};
-zscore_res() = score()? | error() `score`; %% undocumented error()
+zscore_req() :: {'ZSCORE', key(), value()};
+zscore_res() :: score()? | error() `score`; %% undocumented error()
 
-zunionstore_req() = {'ZUNIONSTORE', key(), pos_integer(), [key()]+, [{'WEIGHTS', [weight()]+} | {'AGGREGATE', 'SUM' | 'MIN' | 'MAX'}]};
-zunionstore_res() = non_neg_integer();
+zunionstore_req() :: {'ZUNIONSTORE', key(), pos_integer(), [key()]+, [{'WEIGHTS', [weight()]+} | {'AGGREGATE', 'SUM' | 'MIN' | 'MAX'}]};
+zunionstore_res() :: non_neg_integer();
 
 
 %%% publish/subscribe
-psubscribe_req() = {'PSUBSCRIBE', [pattern()]+};
-psubscribe_res() = ok();
+psubscribe_req() :: {'PSUBSCRIBE', [pattern()]+};
+psubscribe_res() :: ok();
 
-publish_req() = {'PUBLISH', channel(), message()};
-publish_res() = non_neg_integer();
+publish_req() :: {'PUBLISH', channel(), message()};
+publish_res() :: non_neg_integer();
 
-punsubscribe_req() = {'PUNSUBSCRIBE', [pattern()]};
-punsubscribe_res() = ok();
+punsubscribe_req() :: {'PUNSUBSCRIBE', [pattern()]};
+punsubscribe_res() :: ok();
 
-subscribe_req() = {'SUBSCRIBE', [channel()]+};
-subscribe_res() = ok();
+subscribe_req() :: {'SUBSCRIBE', [channel()]+};
+subscribe_res() :: ok();
 
-unsubscribe_req() = {'UNSUBSCRIBE', [channel()]};
-unsubscribe_res() = ok();
+unsubscribe_req() :: {'UNSUBSCRIBE', [channel()]};
+unsubscribe_res() :: ok();
 
 
 %%% transactions
-discard_req() = 'DISCARD';
-discard_res() = ok() | error_discard(); %% undocumented error()
+discard_req() :: 'DISCARD';
+discard_res() :: ok() | error_discard(); %% undocumented error()
 
-exec_req() = 'EXEC';
-exec_res() = error(); %% TODO:
+exec_req() :: 'EXEC';
+exec_res() :: error(); %% TODO:
 
-multi_req() = 'MULTI';
-multi_res() = ok();
+multi_req() :: 'MULTI';
+multi_res() :: ok();
 
-unwatch_req() = 'UNWATCH';
-unwatch_res() = ok();
+unwatch_req() :: 'UNWATCH';
+unwatch_res() :: ok();
 
-watch_req() = {'WATCH', [key()]+};
-watch_res() = ok();
+watch_req() :: {'WATCH', [key()]+};
+watch_res() :: ok();
 
 
 %%% scripting from 2.6.0
-%% eval_req() = {'EVAL', };
-%% eval_res() = | error();
+%% eval_req() :: {'EVAL', };
+%% eval_res() :: | error();
 
-%% script_exists_req() = {'SCRIPT EXISTS', };
-%% script_exists_res() = ;
+%% script_exists_req() :: {'SCRIPT EXISTS', };
+%% script_exists_res() :: ;
 
-%% script_flush_req() = {'SCRIPT FLUSH', };
-%% script_flush_res() = ;
+%% script_flush_req() :: {'SCRIPT FLUSH', };
+%% script_flush_res() :: ;
 
-%% script_kill_req() = {'SCRIPT KILL', };
-%% script_kill_res() = ;
+%% script_kill_req() :: {'SCRIPT KILL', };
+%% script_kill_res() :: ;
 
-%% script_load_req() = {'SCRIPT LOAD', };
-%% script_load_res() = ;
+%% script_load_req() :: {'SCRIPT LOAD', };
+%% script_load_res() :: ;
 
 
 %%% connection
-auth_req() = {'AUTH', password()};
-auth_res() = ok() | error_nopassword();
+auth_req() :: {'AUTH', password()};
+auth_res() :: ok() | error_nopassword();
 
-echo_req() = {'ECHO', value()};
-echo_res() = value();
+echo_req() :: {'ECHO', value()};
+echo_res() :: value();
 
-ping_req() = 'PING';
-ping_res() = {ok, <<"PONG">>};
+ping_req() :: 'PING';
+ping_res() :: {ok, <<"PONG">>};
 
-quit_req() = 'QUIT';
-quit_res() = ok();
+quit_req() :: 'QUIT';
+quit_res() :: ok();
 
-select_req() = {'SELECT', db()};
-select_res() = ok() | error_db();
+select_req() :: {'SELECT', db()};
+select_res() :: ok() | error_db();
 
 
 %%% server
-bgrewriteaof_req() = 'BGREWRITEAOF';
-bgrewriteaof_res() = ok() | error_bgrewriteaof();
+bgrewriteaof_req() :: 'BGREWRITEAOF';
+bgrewriteaof_res() :: ok() | error_bgrewriteaof();
 
-bgsave_req() = 'BGSAVE';
-bgsave_res() = ok() | error(); %% undocumented error()
+bgsave_req() :: 'BGSAVE';
+bgsave_res() :: ok() | error(); %% undocumented error()
 
-config_get_req() = {'CONFIG', 'GET', key()};
-config_get_res() = [value()]; %% undocumented multibulk reply
+config_get_req() :: {'CONFIG', 'GET', key()};
+config_get_res() :: [value()]; %% undocumented multibulk reply
 
-config_resetstat_req() = {'CONFIG', 'RESETSTAT'};
-config_resetstat_res() = ok();
+config_resetstat_req() :: {'CONFIG', 'RESETSTAT'};
+config_resetstat_res() :: ok();
 
-config_set_req() = {'CONFIG', 'SET', key(), value()};
-config_set_res() = ok() | error_config();
+config_set_req() :: {'CONFIG', 'SET', key(), value()};
+config_set_res() :: ok() | error_config();
 
-dbsize_req() = 'DBSIZE';
-dbsize_res() = non_neg_integer();
+dbsize_req() :: 'DBSIZE';
+dbsize_res() :: non_neg_integer();
 
-debug_object_req() = {'DEBUG', 'OBJECT', key()};
-debug_object_res() = ok() | error_nokey(); %% undocumented error()
+debug_object_req() :: {'DEBUG', 'OBJECT', key()};
+debug_object_res() :: ok() | error_nokey(); %% undocumented error()
 
-debug_segfault_req() = {'DEBUG', 'SEGFAULT'};
-debug_segfault_res() = ok();
+debug_segfault_req() :: {'DEBUG', 'SEGFAULT'};
+debug_segfault_res() :: ok();
 
-flushall_req() = 'FLUSHALL';
-flushall_res() = ok();
+flushall_req() :: 'FLUSHALL';
+flushall_res() :: ok();
 
-flushdb_req() = 'FLUSHDB';
-flushdb_res() = ok();
+flushdb_req() :: 'FLUSHDB';
+flushdb_res() :: ok();
 
-info_req() = 'INFO';
-info_res() = [fieldval()] `fieldvals`;
+info_req() :: 'INFO';
+info_res() :: [fieldval()] `fieldvals`;
 
-lastsave_req() = 'LASTSAVE';
-lastsave_res() = time_t();
+lastsave_req() :: 'LASTSAVE';
+lastsave_res() :: time_t();
 
-monitor_req() = 'MONITOR';
-monitor_res() = ok();
+monitor_req() :: 'MONITOR';
+monitor_res() :: ok();
 
-save_req() = 'SAVE';
-save_res() = ok() | error(); %% undocumented error()
+save_req() :: 'SAVE';
+save_res() :: ok() | error(); %% undocumented error()
 
-shutdown_req() = {'SHUTDOWN', 'NOSAVE' | 'SAVE'};
-shutdown_res() = ok();
+shutdown_req() :: {'SHUTDOWN', 'NOSAVE' | 'SAVE'};
+shutdown_res() :: ok();
 
-slaveof_req() = {'SLAVEOF', host(), port()} | {'SLAVEOF', no, one};
-slaveof_res() = ok();
+slaveof_req() :: {'SLAVEOF', host(), port()} | {'SLAVEOF', no, one};
+slaveof_res() :: ok();
 
-%% slowlog_req() = {'SLOWLOG', };
-%% slowlog_res() = ;
+%% slowlog_req() :: {'SLOWLOG', };
+%% slowlog_res() :: ;
 
-sync_req() = 'SYNC';
-sync_res() = ok();
+sync_req() :: 'SYNC';
+sync_res() :: ok();
 
-time_req() = 'TIME';
-time_res() = not_implemented_time(); %% {time_t(), msecs_time_t()};
+time_req() :: 'TIME';
+time_res() :: not_implemented_time(); %% {time_t(), msecs_time_t()};
 
 
 %%% ubf types
-ubf_info_req() = 'info';
-ubf_info_res() = string();
+ubf_info_req() :: 'info';
+ubf_info_res() :: string();
 
-ubf_description_req() = 'description';
-ubf_description_res() = string();
+ubf_description_req() :: 'description';
+ubf_description_res() :: string();
 
-ubf_contract_req() = 'contract';
-ubf_contract_res() = term().
+ubf_contract_req() :: 'contract';
+ubf_contract_res() :: term().
