@@ -34,11 +34,13 @@
 -export([qc_run/0, qc_run/1, qc_run/2]).
 -export([qc_counterexample/0, qc_counterexample/1, qc_counterexample/2]).
 
--export([ubf_setup/1]).
--export([ubf_command_typename/4]).
--export([ubf_aggregate/1]).
+-export([setup/0, setup/1]).
+-export([command_typename/3]).
+-export([aggregate/1]).
 
 -include_lib("ubf/include/qc_ubf.hrl").
+
+-define(REDIS_PROXY, redis_proxy_plugin).
 
 %%%-------------------------------------------------------------------
 %%% API
@@ -52,14 +54,14 @@ qc_run(NumTests) ->
 
 qc_run(NumTests, Options) ->
     %% close port (previous tests)
-    ubf_setup(true),
+    setup(),
     %% check for running redis-server
     case gen_tcp:listen(6379, []) of
         {ok,Port} ->
             ok = gen_tcp:close(Port),
             test_setup(),
             try
-                (qc_ubf()):qc_run(NumTests, Options)
+                qc_ubf:qc_run(?MODULE, [?REDIS_PROXY], NumTests, Options)
             after
                 test_teardown()
             end;
@@ -75,15 +77,17 @@ qc_counterexample(Options) ->
     qc_counterexample(Options, ?QC:counterexample()).
 
 qc_counterexample(Options, CounterExample) ->
-    (qc_ubf()):qc_counterexample(Options, CounterExample).
+    ?QC:check(qc_ubf:qc_prop(?MODULE, [?REDIS_PROXY], Options), CounterExample).
 
-ubf_setup(true) ->
+setup() ->
     redis_server_teardown(),
-    redis_server_setup();
-ubf_setup(false) ->
+    redis_server_setup(),
+    ok.
+
+setup(_) ->
     redis_server_reset().
 
-ubf_command_typename(_Mod, _S, _Contract, TypeNames) ->
+command_typename(_S, _Contract, TypeNames) ->
     SkipList =
         [blpop_req,brpop_req,brpoplpush_req]
         ++ [zinterstore_req,zunionstore_req]
@@ -92,7 +96,7 @@ ubf_command_typename(_Mod, _S, _Contract, TypeNames) ->
         ++ [debug_segfault_req,flushall_req,quit_req,bgsave_req,save_req,shutdown_req,sync_req],
     oneof(TypeNames -- SkipList).
 
-ubf_aggregate(L) ->
+aggregate(L) ->
     [ begin
           TypeName = filter_args(Cmd),
           {TypeName, '->', filter_reply(TypeName,Reply)}
@@ -101,11 +105,6 @@ ubf_aggregate(L) ->
 %%%-------------------------------------------------------------------
 %%% Internal
 %%%-------------------------------------------------------------------
-
--define(REDIS_PROXY, redis_proxy_plugin).
-
-qc_ubf() ->
-    qc_ubf:new(?MODULE, [?REDIS_PROXY]).
 
 test_setup() ->
     test_setup(redis_proxy).
@@ -147,7 +146,7 @@ redis_server_setup() ->
     end.
 
 redis_server_reset() ->
-    {ok, _} = (qc_ubf()):ubf_rpc(?REDIS_PROXY, flushall_req, 'FLUSHALL'),
+    {ok, _} = rpc('FLUSHALL'),
     {ok, undefined}.
 
 redis_server_init(Parent) ->
@@ -193,5 +192,13 @@ filter_reply(X) when is_binary(X) ->
     'binary()';
 filter_reply(X) when is_list(X) ->
     'list()'.
+
+rpc(Call) ->
+    case ubf_client:lpc(?REDIS_PROXY, Call) of
+        {reply,Reply,_State} ->
+            Reply;
+        Err ->
+            erlang:error(Err)
+    end.
 
 -endif. %% -ifdef(QC).

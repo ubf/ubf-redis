@@ -37,6 +37,8 @@
 -export([prop_ruf_requests/0]).
 -export([prop_ruf_responses/0]).
 
+-define(REDIS_PROXY, redis_proxy_plugin).
+
 %%%-------------------------------------------------------------------
 %%% API
 %%%-------------------------------------------------------------------
@@ -52,8 +54,8 @@ qc_run(NumTests) ->
 %% -----------------------------------------------------------------
 prop_ruf_requests() ->
     SKIPLIST = [],
-    ?FORALL({call,_,ubf_rpc,[_,TypeName,X]},
-            ?SUCHTHAT({call,_,ubf_rpc,[_,TN,_]}, (qc_ubf()):command_gen(?MODULE, undefined, input),
+    ?FORALL({call,_,_,[_,TypeName,X]},
+            ?SUCHTHAT({call,_,_,[_,TN,_]}, (qc_ubf_impl()):command_gen(undefined, input),
                       not lists:member(TN,SKIPLIST)),
             ?LET(Safe, bool(),
                  ?LET(DecodeStops, list(nat()),
@@ -70,8 +72,8 @@ prop_ruf_requests() ->
 %% -----------------------------------------------------------------
 prop_ruf_responses() ->
     SKIPLIST = [],
-    ?FORALL({call,_,ubf_rpc,[_,TypeName,X]},
-            ?SUCHTHAT({call,_,ubf_rpc,[_,TN,Y]}, (qc_ubf()):command_gen(?MODULE, undefined, output),
+    ?FORALL({call,_,_,[_,TypeName,X]},
+            ?SUCHTHAT({call,_,_,[_,TN,Y]}, (qc_ubf_impl()):command_gen(undefined, output),
                       not lists:member(TN,SKIPLIST) andalso is_legal_response(Y)),
             ?LET(Safe, bool(),
                  ?LET(DecodeStops, list(nat()),
@@ -100,8 +102,8 @@ is_legal_response(_X) ->
 %%% Internal
 %%%-------------------------------------------------------------------
 
-qc_ubf() ->
-    qc_ubf:new(?MODULE, [ubf_redis_plugin]).
+qc_ubf_impl() ->
+    qc_ubf_impl:new(?MODULE, [?REDIS_PROXY]).
 
 encode(client, Safe, Term) ->
     put('ubf_info', ruf_client_driver),
