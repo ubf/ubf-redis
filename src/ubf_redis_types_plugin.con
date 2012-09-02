@@ -60,7 +60,7 @@ time_t() :: secs();
 msecs_time_t() :: msecs();
 timestamp() :: time_t();
 msecs_timestamp() :: msecs_time_t();
-timeout() :: msecs();
+timeout_msecs() :: msecs();
 
 db() :: non_neg_integer();
 host() :: binary();
@@ -114,7 +114,7 @@ expireat_res() :: 1 | 0;
 keys_req() :: {'KEYS', pattern()};
 keys_res() :: [key()] `keys`;
 
-migrate_req() :: {'MIGRATE', host(), port(), key(), db(), timeout()};
+migrate_req() :: {'MIGRATE', host(), port(), key(), db(), timeout_msecs()};
 migrate_res() :: not_implemented_migrate(); %% ok() | error();
 
 move_req() :: {'MOVE', key(), db()};
@@ -281,13 +281,13 @@ hvals_res() :: [value()] | error() `values`; %% undocumented error()
 
 
 %%% lists
-blpop_req() :: {'BLPOP', [key()]+, timeout()};
+blpop_req() :: {'BLPOP', [key()]+, timeout_msecs()};
 blpop_res() :: keyval()?;
 
-brpop_req() :: {'BRPOP', [key()]+, timeout()};
+brpop_req() :: {'BRPOP', [key()]+, timeout_msecs()};
 brpop_res() :: keyval()?;
 
-brpoplpush_req() :: {'BRPOPLPUSH', key(), key(), timeout()};
+brpoplpush_req() :: {'BRPOPLPUSH', key(), key(), timeout_msecs()};
 brpoplpush_res() :: value()?;
 
 lindex_req() :: {'LINDEX', key(), integer()};
@@ -556,10 +556,10 @@ time_res() :: not_implemented_time(); %% {time_t(), msecs_time_t()};
 
 %%% ubf types
 ubf_info_req() :: 'info';
-ubf_info_res() :: string();
+ubf_info_res() :: ubfstring();
 
 ubf_description_req() :: 'description';
-ubf_description_res() :: string();
+ubf_description_res() :: ubfstring();
 
 ubf_contract_req() :: 'contract';
 ubf_contract_res() :: term().
