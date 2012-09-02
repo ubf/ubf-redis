@@ -54,7 +54,7 @@ qc_run(NumTests) ->
 
 qc_run(NumTests, Options) ->
     %% close port (previous tests)
-    setup(),
+    ok = setup(),
     %% check for running redis-server
     case gen_tcp:listen(6379, []) of
         {ok,Port} ->
@@ -66,7 +66,7 @@ qc_run(NumTests, Options) ->
                 test_teardown()
             end;
         {error,eaddrinuse} ->
-            os:cmd("killall -9 redis-server"),
+            _ = os:cmd("killall -9 redis-server"),
             qc_run(NumTests, Options)
     end.
 
@@ -80,8 +80,8 @@ qc_counterexample(Options, CounterExample) ->
     ?QC:check(qc_ubf:qc_prop(?MODULE, [?REDIS_PROXY], Options), CounterExample).
 
 setup() ->
-    redis_server_teardown(),
-    redis_server_setup(),
+    {ok, _} = redis_server_teardown(),
+    {ok, _} = redis_server_setup(),
     ok.
 
 setup(_) ->
@@ -151,7 +151,7 @@ redis_server_reset() ->
 
 redis_server_init(Parent) ->
     %% remove data
-    os:cmd("rm -f /usr/local/var/db/redis/*"),
+    _ = os:cmd("rm -f /usr/local/var/db/redis/*"),
     %% open port
     Options = [{args, ["/usr/local/etc/redis.conf"]}, binary, stderr_to_stdout, {line,1024}],
     Port = open_port({spawn_executable, "/usr/local/bin/redis-server"}, Options),
