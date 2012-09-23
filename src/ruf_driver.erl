@@ -28,7 +28,7 @@
 -module(ruf_driver).
 -behaviour(contract_driver).
 
--export([start/1, start/2, init/1, init/2, encode/3, decode/5]).
+-export([start/1, start/2, init/1, init/2, encode/3, decode/4]).
 
 %%%=========================================================================
 %%%  Records, Types, Macros
@@ -69,17 +69,18 @@ encode(Contract, _Safe, Term) ->
 %% -----------------------------------------------------------------
 %%
 %% -----------------------------------------------------------------
-decode(Contract, Safe, Cont, Binary, CallBack) ->
-    Cont1 = ruf:decode(Binary, Contract, Cont),
-    decode(Contract, Safe, Cont1, CallBack).
-
-decode(Contract, Safe, {ok, Term, Binary, VSN}=_Cont, CallBack) ->
+decode(Contract, Safe, {init, Rest, VSN}, Binary) ->
     put(?MODULE, VSN),
-    CallBack(ruf_term:encode(Term, Contract, VSN, Safe)),
-    Cont1 = ruf:decode_init(Safe, Binary),
-    decode(Contract, Safe, Cont1, CallBack);
-decode(_Contract, _Safe, Cont, _CallBack) ->
-    Cont.
+    Cont = ruf:decode_init(Safe, Rest),
+    decode(Contract, Safe, Cont, Binary);
+decode(Contract, Safe, Cont, Binary) ->
+    case ruf:decode(Binary, Contract, Cont) of
+        {done, Term, Rest1, VSN1} ->
+            Term1 = ruf_term:encode(Term, Contract, VSN1, Safe),
+            {done, Term1, Rest1, VSN1};
+        Else ->
+            Else
+    end.
 
 %%%========================================================================
 %%% Internal functions

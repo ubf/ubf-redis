@@ -132,14 +132,14 @@ decode1(_Safe, Binary, Cont, []) ->
 decode1(Safe, Binary, Cont, [H|L]) when H =< byte_size(Binary) ->
     <<Prefix:H/binary,Rest/binary>> = Binary,
     case ruf:decode(Prefix, ubf_redis_plugin, Cont) of
-        {ok, X, <<>>, _} ->
+        {done, X, <<>>, _} ->
             {ruf_term:encode(X, ubf_redis_plugin, "2.4.14.0", Safe), X};
         {more, _}=NewCont ->
             decode1(Safe, Rest, NewCont, L)
     end;
 decode1(Safe, Binary, Cont, _) ->
     case ruf:decode(Binary, ubf_redis_plugin, Cont) of
-        {ok, X, <<>>, _} ->
+        {done, X, <<>>, _} ->
             {ruf_term:encode(X, ubf_redis_plugin, "2.4.14.0", Safe), X};
         X ->
             error(badarg, [X])

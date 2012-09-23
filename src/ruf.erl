@@ -155,17 +155,14 @@ contract_records() ->
           size  :: undefined | integer(), % current size (optional)
           last  :: undefined | binary(),  % last (optional)
           safe  :: boolean(),             % safe
-          vsn   :: undefined | string(),  % version
-          mod   :: atom()                 % contract
+          vsn   :: undefined | string()   % version
         }
        ).
 
 -type ruf() :: {ok, binary()} | {error, binary()} | integer() | binary() | [binary()].
--type ok() :: {ok, Output::ruf(), Remainder::binary(), VSN::string()}.
+-type ok() :: {done, Output::ruf(), Remainder::binary(), VSN::string()}.
 -type error() :: {error, Reason::term()}.
--type cont() :: cont1() | cont2().
--type cont1() :: {more, fun()}.
--type cont2() :: {more, fun(), #state{}}.
+-type cont() :: {more, fun()}.
 
 %%%=========================================================================
 %%%  API
@@ -207,41 +204,42 @@ encode(X, Mod, VSN) ->
 %% -----------------------------------------------------------------
 %%
 %% -----------------------------------------------------------------
--spec decode_init() -> cont2().
+-spec decode_init() -> cont().
 decode_init() ->
     decode_init(false).
 
--spec decode_init(Safe::boolean()) -> cont2().
+-spec decode_init(Safe::boolean()) -> cont().
 decode_init(Safe) ->
     decode_init(Safe, <<>>).
 
--spec decode_init(Safe::boolean(), Input::binary()) -> cont2().
+-spec decode_init(Safe::boolean(), Input::binary()) -> cont().
 decode_init(Safe, Binary) ->
-    {more, fun decode_start/1, #state{x=Binary, safe=Safe}}.
+    State = #state{x=Binary, safe=Safe},
+    {more, fun(X) -> decode_start(X, State) end}.
 
--spec decode(Input::binary()) -> ok() | error() | cont1().
+-spec decode(Input::binary()) -> ok() | error() | cont().
 decode(X) ->
     decode(X, ?MODULE).
 
--spec decode(Input::binary(), module()) -> ok() | error() | cont1().
+-spec decode(Input::binary(), module()) -> ok() | error() | cont().
 decode(X, Mod) ->
     decode(X, Mod, decode_init()).
 
--spec decode(Input::binary(), module(), cont()) -> ok() | error() | cont1().
-decode(X, Mod, {more, Fun}) ->
-    Fun(#state{x=X,mod=Mod});
-decode(X, Mod, {more, Fun, #state{x=Old}=State}) ->
-    Fun(State#state{x= <<Old/binary, X/binary>>, mod=Mod}).
+-spec decode(Input::binary(), module(), cont()) -> ok() | error() | cont().
+decode(X, _Mod, {more, Fun}) ->
+    Fun(X).
 
-decode_start(S) ->
-    decode_message(S, fun decode_finish/1).
+decode_start(X, #state{x=Y}=S) ->
+    Z = <<Y/binary, X/binary>>,
+    decode_message(S#state{x=Z}, fun decode_finish/1).
 
 decode_finish(#state{x=X,stack=Term,vsn=VSN}) ->
-    {ok, Term, X, VSN}.
+    {done, Term, X, VSN}.
 
-decode_pause(#state{x=X}=S, Cont, Resume) ->
-    {more, fun(#state{x=X1,mod=Mod1}) ->
-                   Resume(S#state{x= <<X/binary,X1/binary>>,mod=Mod1}, Cont)
+decode_pause(#state{x=Y}=S, Cont, Resume) ->
+    {more, fun(X) ->
+                   Z = <<Y/binary, X/binary>>,
+                   Resume(S#state{x=Z}, Cont)
            end}.
 
 decode_error(Type, S) ->
