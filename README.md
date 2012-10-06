@@ -346,7 +346,7 @@ Caution
 </td>
 <td class="content">If you manually run dialyzer with the "-r" option, execute
 "make clean compile" first to avoid finding duplicate beam files
-underneath rebar's .test directory.  Check Makefile for further
+underneath rebar's .eunit directory.  Check Makefile for further
 information.</td>
 </tr></table>
 
@@ -398,7 +398,7 @@ Run 5,000 Redis Encoder/Decoder QuickCheck tests
 </p>
 
 
-<pre><tt>$ cd working-directory-name/deps/ubf_redis/.test
+<pre><tt>$ cd working-directory-name/deps/ubf_redis/.eunit
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> ruf_tests:qc_run(5000).
@@ -418,7 +418,7 @@ Run 500 Redis Proxy QuickCheck tests
 </p>
 
 
-<pre><tt>$ cd working-directory-name/deps/ubf_redis/.test
+<pre><tt>$ cd working-directory-name/deps/ubf_redis/.eunit
 $ erl -smp +A 5 -pz ../../ubf/ebin -pz ../../qc/ebin
 
 1> redis_proxy_tests:qc_run(500).
