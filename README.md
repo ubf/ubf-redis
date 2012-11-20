@@ -37,7 +37,7 @@ please read further.</p>
 <h3 id="_where_should_i_start">Where should I start?</h3>
 <p>This README is a good first step.</p>
 <p>The UBF User's Guide is the best next step.  Check out
-<a href="http://ubf.github.com/ubf/ubf-user-guide.en.md">http://ubf.github.com/ubf/ubf-user-guide.en.html</a> for further
+<a href="http://ubf.github.com/ubf/ubf-user-guide.en.html">http://ubf.github.com/ubf/ubf-user-guide.en.html</a> for further
 detailed information.</p>
 <p>This repository has building blocks for constructing your own Redis
 server clone in Erlang.</p>
@@ -125,7 +125,7 @@ UBF(c) is a meta-level protocol used between a UBF client and a UBF
 </p>
 </li>
 </ul>
-<p>See <a href="http://norton.github.com/ubf">http://norton.github.com/ubf</a> for further details.</p>
+<p>See <a href="http://ubf.github.com/ubf">http://ubf.github.com/ubf</a> for further details.</p>
 
 
 <h3 id="_what_is_redis">What is Redis?</h3>
