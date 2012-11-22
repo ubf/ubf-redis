@@ -27,13 +27,13 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#decode-3">decode/3</a></td><td></td></tr><tr><td valign="top"><a href="#encode-4">encode/4</a></td><td><p>Redis Unified Format - Erlang Term Format</p>
 
 
-<pre><tt>This module implements a decoder and encoder between Redis
-Unified Format and Erlang Term Format.</tt></pre>
+<pre><code>This module implements a decoder and encoder between Redis
+Unified Format and Erlang Term Format.</code></pre>
 
 
 
-<pre><tt>NOTE: This module acts as bridge between Redis and Erlang
-conventions for requests and responses.</tt></pre>
+<pre><code>NOTE: This module acts as bridge between Redis and Erlang
+conventions for requests and responses.</code></pre>
 .</td></tr></table>
 
 
@@ -62,11 +62,11 @@ conventions for requests and responses.</tt></pre>
 <p>Redis Unified Format - Erlang Term Format</p>
 
 
-<pre><tt>This module implements a decoder and encoder between Redis
-Unified Format and Erlang Term Format.</tt></pre>
+<pre><code>This module implements a decoder and encoder between Redis
+Unified Format and Erlang Term Format.</code></pre>
 
 
 
-<pre><tt>NOTE: This module acts as bridge between Redis and Erlang
-conventions for requests and responses.</tt></pre>
+<pre><code>NOTE: This module acts as bridge between Redis and Erlang
+conventions for requests and responses.</code></pre>
 

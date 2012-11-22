@@ -6,7 +6,7 @@
 * [Function Details](#functions)
 
 
-__Behaviours:__ [`contract_proto`](https://github.com/ubf/ubf/blob/master/doc/contract_proto.md).
+__Behaviours:__ [`contract_proto`](contract_proto.md).
 <a name="types"></a>
 
 ##Data Types##
@@ -18,23 +18,7 @@ __Behaviours:__ [`contract_proto`](https://github.com/ubf/ubf/blob/master/doc/co
 
 
 
-<pre>cont() = <a href="#type-cont1">cont1()</a> | <a href="#type-cont2">cont2()</a></pre>
-
-
-
-###<a name="type-cont1">cont1()</a>##
-
-
-
-<pre>cont1() = {more, function()}</pre>
-
-
-
-###<a name="type-cont2">cont2()</a>##
-
-
-
-<pre>cont2() = {more, function(), #state{}}</pre>
+<pre>cont() = {more, function()}</pre>
 
 
 
@@ -50,7 +34,7 @@ __Behaviours:__ [`contract_proto`](https://github.com/ubf/ubf/blob/master/doc/co
 
 
 
-<pre>ok() = {ok, Output::<a href="#type-ruf">ruf()</a>, Remainder::binary(), VSN::string()}</pre>
+<pre>ok() = {done, Output::<a href="#type-ruf">ruf()</a>, Remainder::binary(), VSN::string()}</pre>
 
 
 
@@ -67,9 +51,9 @@ __Behaviours:__ [`contract_proto`](https://github.com/ubf/ubf/blob/master/doc/co
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#atom_to_binary-1">atom_to_binary/1</a></td><td></td></tr><tr><td valign="top"><a href="#binary_to_atom-1">binary_to_atom/1</a></td><td></td></tr><tr><td valign="top"><a href="#binary_to_existing_atom-1">binary_to_existing_atom/1</a></td><td></td></tr><tr><td valign="top"><a href="#contract_records-0">contract_records/0</a></td><td><p>Redis Unified Format</p>
 
 
-<pre><tt>This module implements a decoder and encoder for the Redis Network
+<pre><code>This module implements a decoder and encoder for the Redis Network
 Protocol.  See http://redis.io/topics/protocol for further
-details.</tt></pre>
+details.</code></pre>
 
 <dl>
 <dt class="hdlist1">
@@ -300,9 +284,9 @@ Erlang (sans CR LF)
 <p>Redis Unified Format</p>
 
 
-<pre><tt>This module implements a decoder and encoder for the Redis Network
+<pre><code>This module implements a decoder and encoder for the Redis Network
 Protocol.  See http://redis.io/topics/protocol for further
-details.</tt></pre>
+details.</code></pre>
 
 <dl>
 <dt class="hdlist1">
@@ -501,7 +485,7 @@ Erlang (sans CR LF)
 ###decode/1##
 
 
-<pre>decode(Input::binary()) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont1">cont1()</a></pre>
+<pre>decode(Input::binary()) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
@@ -510,7 +494,7 @@ Erlang (sans CR LF)
 ###decode/2##
 
 
-<pre>decode(Input::binary(), Mod::module()) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont1">cont1()</a></pre>
+<pre>decode(Input::binary(), Mod::module()) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
@@ -519,7 +503,7 @@ Erlang (sans CR LF)
 ###decode/3##
 
 
-<pre>decode(Input::binary(), Mod::module(), X3::<a href="#type-cont">cont()</a>) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont1">cont1()</a></pre>
+<pre>decode(Input::binary(), Mod::module(), X3::<a href="#type-cont">cont()</a>) -> <a href="#type-ok">ok()</a> | <a href="#type-error">error()</a> | <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
@@ -528,7 +512,7 @@ Erlang (sans CR LF)
 ###decode_init/0##
 
 
-<pre>decode_init() -> <a href="#type-cont2">cont2()</a></pre>
+<pre>decode_init() -> <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
@@ -537,7 +521,7 @@ Erlang (sans CR LF)
 ###decode_init/1##
 
 
-<pre>decode_init(Safe::boolean()) -> <a href="#type-cont2">cont2()</a></pre>
+<pre>decode_init(Safe::boolean()) -> <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
@@ -546,7 +530,7 @@ Erlang (sans CR LF)
 ###decode_init/2##
 
 
-<pre>decode_init(Safe::boolean(), Input::binary()) -> <a href="#type-cont2">cont2()</a></pre>
+<pre>decode_init(Safe::boolean(), Input::binary()) -> <a href="#type-cont">cont()</a></pre>
 <br></br>
 
 
