@@ -25,6 +25,7 @@
 
 -module(ruf).
 -behaviour(contract_proto).
+-compile({no_auto_import,[binary_to_integer/1]}).
 
 %%% ---------------------------------------------------
 %%% @doc Redis Unified Format
