@@ -1,11 +1,11 @@
 
 
-#Universal Binary Format and Redis#
-
+# Universal Binary Format and Redis #
 
 Copyright (c) 2012-2013 by Joseph Wayne Norton
 
-__Authors:__ Joseph Wayne Norton ([`norton@alum.mit.edu`](mailto:norton@alum.mit.edu)).<p>This is UBF-REDIS, a framework for integrating UBF and the Redis
+__Authors:__ Joseph Wayne Norton ([`norton@alum.mit.edu`](mailto:norton@alum.mit.edu)).
+<p>This is UBF-REDIS, a framework for integrating UBF and the Redis
 Unified Format (RUF) protocol.  This repository depends on the ubf
 open source repository.</p>
 <p><em>This repository is experimental in nature - use at your own risk and
@@ -633,7 +633,7 @@ Implement real "statem" test model for the Redis Proxy.
 
 
 
-##Modules##
+## Modules ##
 
 
 <table width="100%" border="0" summary="list of modules">
